@@ -1,0 +1,27 @@
+
+body{
+background-image: url("./component/asset/pexels-stijn-dijkstra-2499790.jpg");
+background-size:     cover;                  
+background-repeat:   no-repeat;
+background-position: center center; 
+}
+
+.container{
+  min-height: 100vh;
+  
+}
+.problem-section{
+  height: 33rem;
+  overflow-y: scroll;
+}
+
+.login{
+  background-color: rgba(0, 0, 0, 0.551);
+  border-radius: 12px;
+  width: 32rem;
+  padding: 10px;
+}
+
+.outer{
+  min-height: 90vh;
+}
