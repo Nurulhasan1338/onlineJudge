@@ -2,22 +2,25 @@ const mongose =require('mongoose');
 const { Schema } = mongose;
 const Code = new Schema({
     
-   user:{
-        // this will act as forign key as userid is from user collection and this is how we mention comman data. 
-        type:mongose.Schema.Types.ObjectId, // as the type will be objectid
-        ref : "user"  //  from which collection user id will come
+   name:{
+       type:String,
+       required:true
    },
    code:{
+    type:String,
+    required:true
+   },
+   difficulty:{
        type:String,
        required:true
    },
-   verdict:{
-       type:String,
-       required:true
+    description:{
+        type:String,
+        require:true
    },
-    problem:{
-        type:mongose.Schema.Types.ObjectId, // as the type will be objectid
-        ref : "problems"  //  from which collection user id will come
+   expec_out:{
+    type:String,
+    require:true
    },
    date:{
        type:Date,
@@ -26,4 +29,4 @@ const Code = new Schema({
    },
   });
 
-module.exports = mongose.model('note',NoteSchema);
+module.exports = mongose.model('code',Code);
