@@ -2,7 +2,7 @@
 This is the  high-level structure for developing an Online Judge web application using the MERN (MongoDB, Express.js, React.js, Node.js) stack. The application will allow users to submit C++ code(later more longuage will be added), process it on the backend, and provide a verdict on the output based on the provided input and test cases.
 
 ## Frontend 
-In fornt part there will be 3 pages and 5 components.
+In fornt part there will be 3 pages and 5 components also for desiging purpose bootstrap will be use.
 
 ## Page 1 - Login page
 In this user authentication will be done using json web token, User will enter its email id and password for login,
