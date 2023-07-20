@@ -94,6 +94,7 @@ router.post(
       }
       // compare password and hash and return bool value
       const comppass = await bycrypt.compare(password, user.password);
+      // const comppass = (password == user.passwor);
 
       if (!comppass) {
         return res.status(400).json({"success":Success,error: "invalid credential" });

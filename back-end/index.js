@@ -1,25 +1,18 @@
 
-const PORT = 3000;
+const PORT = 5000;
 const connectToMongo = require('./db');
 const cors = require('cors')
 const express = require('express')
 connectToMongo();  
 const app = express()
 
-app.use(cors(
-    {
-        origin : ["https://my-note-backend-c31y.vercel.app"],
-        methods : ["POST","GET","PUT","DELETE"],
-        credentials:true
-
-    }
-));
+app.use(cors());
 
 app.use(express.json());
  
-app.use('/auth',require('./routes/auth'));
-app.use('/run',require('./routes/runcode'));
-app.use('/add',require('./routes/addprob'));
+app.use('/api/auth',require('./routes/auth'));
+app.use('/api/run',require('./routes/runcode'));
+app.use('/api/add',require('./routes/prob'));
 
 app.get('*',(req,res,next)=>{
   res.status(200).json({

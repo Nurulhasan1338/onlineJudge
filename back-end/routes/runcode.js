@@ -7,7 +7,38 @@ const Prob = require("../module/Code")
 
 
 
-router.post("/",fetchuser,async(req,res)=>{
+// this route is used for only running the code and giving the output
+router.post("/runcode",async(req,res)=>{
+    try{
+    const {code,format,input} = req.body;
+
+    const filepath = generateFile(code,format);
+
+
+    
+
+    const output = await executecode(filepath,input);
+
+    if(output){ 
+        res.json({
+                "success":true,
+                "verdict" : "code is running Successfully",
+                "output":output
+        });
+        }else{
+            res.json({
+                "success":false,
+                "verdict" :"code in not running",
+                "output":output
+        });
+        }
+    }catch(err){
+        res.json({"success":"false","err":err})
+    }
+});
+
+
+router.post("/submit",fetchuser,async(req,res)=>{
 try{
 const {code,format,input,p_name} = req.body;
 const filepath = generateFile(code,format);
@@ -42,6 +73,7 @@ res.json({
 }catch(err){
     res.json({"success":false,"err":err.message});
 } 
+
 
 });
 

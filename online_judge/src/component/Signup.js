@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Signup = (props) => {
-//   const nevigate = useNavigate();
-
-//   const showAlert = props.showAlert;
+  const nevigate = useNavigate();
 
   const [data, setData] = useState({ name: "", email: "", password: "" });
 
@@ -15,6 +13,30 @@ const Signup = (props) => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    try{
+    const response = await fetch('http://localhost:5000/api/auth/createuser',
+    {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "name":data.name,
+          "email":data.email,
+          "password": data.password
+        }),
+    })
+
+    const signup = await response.json();
+    if(signup.success){
+        nevigate('/')
+    }
+    else{
+        console.log("invalid Credential");
+    }
+  }catch(err){
+    console.log(err);
+  }
 
    
   };

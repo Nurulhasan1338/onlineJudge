@@ -13,6 +13,8 @@ const deleteFile = async(filename,outpath)=>{
             }
             resolve(stdout);
         
+
+            
         })
     })
 }

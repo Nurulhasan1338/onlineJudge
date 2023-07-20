@@ -35,7 +35,6 @@ const executecode = async (filepath,input)=>{
 
     // this will delete the generated files
     const isdelete = await deleteFile(filepath,outpath);
-    
 
     return result;
 
