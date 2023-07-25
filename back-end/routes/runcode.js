@@ -38,13 +38,13 @@ router.post("/runcode",async(req,res)=>{
 });
 
 
-router.post("/submit",fetchuser,async(req,res)=>{
+router.post("/submit",async(req,res)=>{
 try{
-const {code,format,input,p_name} = req.body;
+const {code,format,input,id} = req.body;
 const filepath = generateFile(code,format);
 
 // with the help of problem name we are able to fetch all information of the problem
-const problem = await Prob.findOne({name:p_name});
+const problem = await Prob.findOne({_id:id});
 
 // ecxecuting the correct code with the given input to find expected output
 const testpath = generateFile(problem.code,format);
@@ -55,23 +55,25 @@ const output = await executecode(filepath,input);
 
 if(output===testoutput){ 
 res.json({
+        "status":true,
         "success":true,
-        "verdict" : "Code Accepted",
-        "your input":output,
-        "expected output":testoutput
+        "verdict" : "Accepted",
+        "yout":output,
+        "eout":testoutput
 
 });
 }else{
     res.json({
+        "status":true,
         "success":false,
         "verdict" : "Wrong Answer",
-        "your input":output,
-        "expected output":testoutput
+        "yout":output,
+        "eout":testoutput
 });
 }
 
 }catch(err){
-    res.json({"success":false,"err":err.message});
+    res.json({"status":false,"err":err.message});
 } 
 
 

@@ -27,10 +27,26 @@ router.post("/createprob",async (req, res) => {
     }
   );
 
-  router.get("/fetchprob", async (req, res) => {
+  router.get("/fetchprobs", async (req, res) => {
     try {
 
  const notes = await Code.find();
+ if(notes.length!==0){
+  res.json({"success":true,"data":notes});
+ }
+ else{
+  res.json({"success":false,"msg":"no problem"});
+ }
+}  catch (error) {
+    console.error(error);
+    res.status(500).send("some internal error");
+}
+});
+
+  router.post("/fetchprob", async(req, res) => {
+    try {
+
+ const notes = await Code.find({_id:req.body.id});
  if(notes.length!==0){
   res.json({"success":true,"data":notes});
  }

@@ -20,7 +20,7 @@ const executecode = async (filepath,input)=>{
     // we have to use await here as promises will use callback therore delete function will execute first and then file can be delete before executing it
     const result = await new Promise((resolve,reject)=>{
         // this is how to give command from the js progame and exec is the child process which is the instance of OS process which excescute the program
-        exec(`g++ ${filepath} -o ${outpath} && cd ${output_dir} && echo ${input} | .\\${jobid}.exe`,
+        exec(`g++ ${filepath} -o ${outpath} && cd ${output_dir} && echo ${input} | .\/${jobid}.exe`,
         (error,stdout,stderr)=>{
             if(error){
                 reject({error,stderr});
