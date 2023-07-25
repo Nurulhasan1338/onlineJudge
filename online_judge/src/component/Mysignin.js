@@ -13,13 +13,14 @@ import Grid from '@mui/material/Grid';
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import add from "./config.js";
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Nurul_Hasan | codeBatttle.io
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -31,12 +32,13 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+export default function SignInSide(props) {
+  const host = add;
 
   const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const response = await fetch('http://localhost:5000/api/auth/login',
+    const response = await fetch(`${host}api/auth/login`,
     {
         method: "POST",
         headers: {
@@ -50,11 +52,11 @@ export default function SignInSide() {
 
     const login = await response.json();
     if(login.success){
-        localStorage.setItem('auth-token',login.authtoken);
-        nevigate('/main')
+        localStorage.setItem('authtoken',login.authtoken);
+        nevigate('/list')
     }
     else{
-        console.log("invalid Credential");
+        props.showAlert({type:"danger",msg:"invalid Credential"});
     }
   };
 
@@ -67,9 +69,12 @@ export default function SignInSide() {
   }
 
   return (
+    // <CssVarsProvider defaultMode="system">
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
+        
         <CssBaseline />
+      
         <Grid
           item
           xs={false}
@@ -79,7 +84,7 @@ export default function SignInSide() {
             backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+              t.palette.mode === 'dark' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -98,9 +103,12 @@ export default function SignInSide() {
               
             </Avatar>
             <Typography component="h1" variant="h5">
+            </Typography>
+            <Typography component="h1" variant="h5">
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            {/* <Alert>This is a basic Alert.</Alert> */}
               <TextField
                 margin="normal"
                 required
@@ -151,5 +159,6 @@ export default function SignInSide() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    // </CssVarsProvider>
   );
 }

@@ -2,19 +2,21 @@ import React,{useState} from 'react'
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import add from "./config.js";
 
+
+
+
 const Codeeditor = (props) => {
+
 
 const host = add;
 
-const [input,setInput] = useState("");
+const [input,setInput] = useState("white");
 const [code,setCode] = useState(`#include<iostream>  \nusing namespace std;\nint main(){\ncout<<"hello hasan";\nreturn 0;\n }`);
   
 
   const handleClick = async (e) => {
       e.preventDefault();
-
-      console.log(code);
-      console.log(input);
+      props.setLoding({run:true});
       try {
         const response = await fetch(
           `${host}api/run/runcode`,
@@ -26,18 +28,58 @@ const [code,setCode] = useState(`#include<iostream>  \nusing namespace std;\nint
             body: JSON.stringify({
               "format":"cpp",
               "code": code,
-              "input":input
+              "input":input,
+              "id":props.id
             }),
           }
         );
         const output = await response.json();
     
       props.setOut(output.output);
-      console.log(output);
 
-        
       }catch (err) {
-        console.log(err);
+        props.showAlert(err);
+      }
+      props.setLoding({run:false});
+    
+  };
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      try {
+        props.setLoding({submit:true});
+        const response = await fetch(
+          `${host}api/run/submit`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              "format":"cpp",
+              "code": code,
+              "input":input,
+              "id":props.id
+            }),
+          }
+        );
+        const output = await response.json();
+        if(output.status===true){
+          if(output.success===true){
+            props.setColor("success");
+          }
+          else{
+            props.setColor("danger");
+          }
+          props.setResult({success:output.success,vecdict:output.verdict,yout:output.yout,eout:output.eout});
+
+      }
+      else{
+        props.showAlert(output);
+      }
+      props.setLoding({submit:false});
+      }catch (err) {
+        props.showAlert(err);
       }
     
   };
@@ -47,7 +89,7 @@ const [code,setCode] = useState(`#include<iostream>  \nusing namespace std;\nint
 
   return (
     <div className='m-3'>
-        <CodeEditor
+    <CodeEditor
       value={code}
       language="cpp"
       placeholder="Please enter JS code."
@@ -62,16 +104,17 @@ const [code,setCode] = useState(`#include<iostream>  \nusing namespace std;\nint
         fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
       }}
     />
-    {/* <textarea value={code} name="code" rows={20} cols={70} onChange={(e)=>{setCode(e.target.value)}} /> */}
+  
 
 
-    <div className='d-flex justify-content-between w-100 mt-3'>
-    <div class="input-group">
-  <span class="input-group-text">Input</span>
-  <textarea class="form-control" name="input"  value={input} onChange={(evn) => setInput(evn.target.value)} aria-label="With textarea"></textarea>
+    <div className='row w-100 mt-4'>
+    <div className="col-lg-12 col-md-12 input-group rounded">
+  <span className="input-group-text">Input</span>
+  <textarea className="form-control rounded-end" name="input"  value={input} onChange={(evn) => setInput(evn.target.value)} aria-label="With textarea"></textarea>
 </div>
-      <div className=''> <button className='btn btn-success m-3' onClick={handleClick}>Submit</button></div>
-    </div>
+      <div className='col-2 my-3'> <button className='btn btn-success mx-1' onClick={handleClick}>Run</button></div>
+      <div className='col-2 my-3'> <button className='btn btn-success mx-1' onClick={handleSubmit}>Submit</button></div>
+  </div>
       
     </div>
   )

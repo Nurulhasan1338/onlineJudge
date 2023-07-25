@@ -11,8 +11,12 @@ background-repeat:   no-repeat;
   
 }
 .problem-section{
-  height: 23rem;
+  height: 20rem;
   overflow-y: scroll;
+}
+.problem{
+  background-color: rgba(0, 0, 0, 0.47);
+  
 }
 
 .login{
